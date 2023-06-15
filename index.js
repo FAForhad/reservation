@@ -25,6 +25,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         const productCollection = client.db("reservation").collection("bookings");
+        const usersCollection = client.db("reservation").collection("users");
         // Send a ping to confirm a successful connection
 
 
@@ -34,6 +35,17 @@ async function run() {
             res.send(result);
             console.log(result);
         });
+
+
+        app.post("/user", async (req, res) => {
+            const users = req.body;
+            const result = await usersCollection.insertOne(users);
+            res.send(result);
+            console.log(result);
+        });
+
+
+
         await client.db("admin").command({ ping: 1 });
     } finally {
         // Ensures that the client will close when you finish/error
